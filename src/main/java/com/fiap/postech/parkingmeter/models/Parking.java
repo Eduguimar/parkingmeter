@@ -8,18 +8,18 @@ public class Parking {
     private Long id;
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
-    private Double value;
+    private Double valuePerHour;
 
     private Vehicle vehicle;
-    
+
     public Parking() {
     }
 
-    public Parking(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double value, Vehicle vehicle) {
+    public Parking(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double valuePerHour, Vehicle vehicle) {
         this.id = id;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
-        this.value = value;
+        this.valuePerHour = valuePerHour;
         this.vehicle = vehicle;
     }
 
@@ -47,12 +47,12 @@ public class Parking {
         this.exitTime = exitTime;
     }
 
-    public Double getValue() {
-        return value;
+    public Double getValuePerHour() {
+        return valuePerHour;
     }
 
-    public void setValue(Double value) {
-        this.value = value;
+    public void setValuePerHour(Double valuePerHour) {
+        this.valuePerHour = valuePerHour;
     }
 
     public Vehicle getVehicle() {
