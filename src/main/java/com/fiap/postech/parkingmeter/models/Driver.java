@@ -1,8 +1,8 @@
 package com.fiap.postech.parkingmeter.models;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Driver {
 
@@ -13,12 +13,12 @@ public class Driver {
     private String mail;
     private String phone;
 
-    private List<Vehicle> vehicles;
+    private Set<Vehicle> vehicles;
 
     public Driver() {
     }
 
-    public Driver(Long id, String name, String document, Date birthDate, String mail, String phone, List<Vehicle> vehicles) {
+    public Driver(Long id, String name, String document, Date birthDate, String mail, String phone, Set<Vehicle> vehicles) {
         this.id = id;
         this.name = name;
         this.document = document;
@@ -76,7 +76,7 @@ public class Driver {
         this.phone = phone;
     }
 
-    public List<Vehicle> getVehicles() {
+    public Set<Vehicle> getVehicles() {
         return vehicles;
     }
 
