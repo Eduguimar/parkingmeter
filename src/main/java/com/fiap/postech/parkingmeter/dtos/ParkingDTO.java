@@ -2,6 +2,7 @@ package com.fiap.postech.parkingmeter.dtos;
 
 import com.fiap.postech.parkingmeter.models.Parking;
 import com.fiap.postech.parkingmeter.models.Vehicle;
+import com.fiap.postech.parkingmeter.models.enums.ParkingType;
 
 import java.time.LocalDateTime;
 
@@ -10,18 +11,20 @@ public class ParkingDTO {
     private Long id;
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
-    private Double valuePerHour;
+    private Double value;
+    private ParkingType parkingType;
 
     private Vehicle vehicle;
 
     public ParkingDTO() {
     }
 
-    public ParkingDTO(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double valuePerHour, Vehicle vehicle) {
+    public ParkingDTO(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double value, ParkingType parkingType, Vehicle vehicle) {
         this.id = id;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
-        this.valuePerHour = valuePerHour;
+        this.value = value;
+        this.parkingType = parkingType;
         this.vehicle = vehicle;
     }
 
@@ -29,7 +32,8 @@ public class ParkingDTO {
         this.id = parking.getId();
         this.entryTime = parking.getEntryTime();
         this.exitTime = parking.getExitTime();
-        this.valuePerHour = parking.getValuePerHour();
+        this.value = parking.getValue();
+        this.parkingType = parking.getParkingType();
         this.vehicle = parking.getVehicle();
     }
 
@@ -57,12 +61,20 @@ public class ParkingDTO {
         this.exitTime = exitTime;
     }
 
-    public Double getValuePerHour() {
-        return valuePerHour;
+    public Double getValue() {
+        return value;
     }
 
-    public void setValuePerHour(Double valuePerHour) {
-        this.valuePerHour = valuePerHour;
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public ParkingType getParkingType() {
+        return parkingType;
+    }
+
+    public void setParkingType(ParkingType parkingType) {
+        this.parkingType = parkingType;
     }
 
     public Vehicle getVehicle() {

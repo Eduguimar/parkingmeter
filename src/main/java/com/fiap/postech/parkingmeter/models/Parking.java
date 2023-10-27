@@ -1,5 +1,9 @@
 package com.fiap.postech.parkingmeter.models;
 
+import com.fiap.postech.parkingmeter.models.enums.ParkingType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -8,18 +12,21 @@ public class Parking {
     private Long id;
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
-    private Double valuePerHour;
+    private Double value;
+    @Enumerated(EnumType.STRING)
+    private ParkingType parkingType;
 
     private Vehicle vehicle;
 
     public Parking() {
     }
 
-    public Parking(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double valuePerHour, Vehicle vehicle) {
+    public Parking(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double value, ParkingType parkingType, Vehicle vehicle) {
         this.id = id;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
-        this.valuePerHour = valuePerHour;
+        this.value = value;
+        this.parkingType = parkingType;
         this.vehicle = vehicle;
     }
 
@@ -47,12 +54,20 @@ public class Parking {
         this.exitTime = exitTime;
     }
 
-    public Double getValuePerHour() {
-        return valuePerHour;
+    public Double getValue() {
+        return value;
     }
 
-    public void setValuePerHour(Double valuePerHour) {
-        this.valuePerHour = valuePerHour;
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    public ParkingType getParkingType() {
+        return parkingType;
+    }
+
+    public void setParkingType(ParkingType parkingType) {
+        this.parkingType = parkingType;
     }
 
     public Vehicle getVehicle() {

@@ -1,5 +1,9 @@
 package com.fiap.postech.parkingmeter.models;
 
+import com.fiap.postech.parkingmeter.models.enums.PaymentForm;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -12,19 +16,22 @@ public class Driver {
     private Date birthDate;
     private String mail;
     private String phone;
+    @Enumerated(EnumType.STRING)
+    private PaymentForm paymentForm;
 
     private Set<Vehicle> vehicles;
 
     public Driver() {
     }
 
-    public Driver(Long id, String name, String document, Date birthDate, String mail, String phone, Set<Vehicle> vehicles) {
+    public Driver(Long id, String name, String document, Date birthDate, String mail, String phone, PaymentForm paymentForm, Set<Vehicle> vehicles) {
         this.id = id;
         this.name = name;
         this.document = document;
         this.birthDate = birthDate;
         this.mail = mail;
         this.phone = phone;
+        this.paymentForm = paymentForm;
         this.vehicles = vehicles;
     }
 
@@ -74,6 +81,14 @@ public class Driver {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public PaymentForm getPaymentForm() {
+        return paymentForm;
+    }
+
+    public void setPaymentForm(PaymentForm paymentForm) {
+        this.paymentForm = paymentForm;
     }
 
     public Set<Vehicle> getVehicles() {

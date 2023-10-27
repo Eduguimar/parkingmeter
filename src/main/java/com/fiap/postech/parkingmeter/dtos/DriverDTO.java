@@ -2,6 +2,7 @@ package com.fiap.postech.parkingmeter.dtos;
 
 import com.fiap.postech.parkingmeter.models.Driver;
 import com.fiap.postech.parkingmeter.models.Vehicle;
+import com.fiap.postech.parkingmeter.models.enums.PaymentForm;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,19 +17,21 @@ public class DriverDTO {
     private Date birthDate;
     private String mail;
     private String phone;
+    private PaymentForm paymentForm;
 
     private List<VehicleDTO> vehicles = new ArrayList<>();
 
     public DriverDTO() {
     }
 
-    public DriverDTO(Long id, String name, String document, Date birthDate, String mail, String phone) {
+    public DriverDTO(Long id, String name, String document, Date birthDate, String mail, String phone, PaymentForm paymentForm) {
         this.id = id;
         this.name = name;
         this.document = document;
         this.birthDate = birthDate;
         this.mail = mail;
         this.phone = phone;
+        this.paymentForm = paymentForm;
     }
 
     public DriverDTO(Driver driver) {
@@ -38,6 +41,7 @@ public class DriverDTO {
         this.birthDate = driver.getBirthDate();
         this.mail = driver.getMail();
         this.phone = driver.getPhone();
+        this.paymentForm = driver.getPaymentForm();
     }
 
     public DriverDTO(Driver driver, Set<Vehicle> vehicles) {
@@ -91,6 +95,14 @@ public class DriverDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public PaymentForm getPaymentForm() {
+        return paymentForm;
+    }
+
+    public void setPaymentForm(PaymentForm paymentForm) {
+        this.paymentForm = paymentForm;
     }
 
     public List<VehicleDTO> getVehicles() {
