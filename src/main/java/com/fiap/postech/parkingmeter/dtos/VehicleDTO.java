@@ -1,26 +1,29 @@
 package com.fiap.postech.parkingmeter.dtos;
 
-import com.fiap.postech.parkingmeter.models.Driver;
 import com.fiap.postech.parkingmeter.models.Vehicle;
+import jakarta.validation.constraints.NotBlank;
 
 public class VehicleDTO {
 
     private Long id;
     private String model;
+    @NotBlank(message = "License plate is required")
     private String licensePlate;
     private Integer year;
+    private boolean isParkedPerHour;
 
-    private Driver driver;
+    private DriverDTO driverDTO;
 
     public VehicleDTO() {
     }
 
-    public VehicleDTO(Long id, String model, String licensePlate, Integer year, Driver driver) {
+    public VehicleDTO(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, DriverDTO driverDTO) {
         this.id = id;
         this.model = model;
         this.licensePlate = licensePlate;
         this.year = year;
-        this.driver = driver;
+        this.isParkedPerHour = isParkedPerHour;
+        this.driverDTO = driverDTO;
     }
 
     public VehicleDTO(Vehicle vehicle) {
@@ -28,7 +31,8 @@ public class VehicleDTO {
         this.model = vehicle.getModel();
         this.licensePlate = vehicle.getLicensePlate();
         this.year = vehicle.getYear();
-        this.driver = vehicle.getDriver();
+        this.isParkedPerHour = vehicle.isParkedPerHour();
+        this.driverDTO = new DriverDTO(vehicle.getDriver());
     }
 
     public Long getId() {
@@ -63,11 +67,19 @@ public class VehicleDTO {
         this.year = year;
     }
 
-    public Driver getDriver() {
-        return driver;
+    public boolean isParkedPerHour() {
+        return isParkedPerHour;
     }
 
-    public void setDriver(Driver driver) {
-        this.driver = driver;
+    public void setParkedPerHour(boolean parkedPerHour) {
+        isParkedPerHour = parkedPerHour;
+    }
+
+    public DriverDTO getDriverDTO() {
+        return driverDTO;
+    }
+
+    public void setDriverDTO(DriverDTO driverDTO) {
+        this.driverDTO = driverDTO;
     }
 }

@@ -8,17 +8,19 @@ public class Vehicle {
     private String model;
     private String licensePlate;
     private Integer year;
+    private boolean isParkedPerHour;
 
     private Driver driver;
 
     public Vehicle(){
     }
 
-    public Vehicle(Long id, String model, String licensePlate, Integer year, Driver driver) {
+    public Vehicle(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, Driver driver) {
         this.id = id;
         this.model = model;
         this.licensePlate = licensePlate;
         this.year = year;
+        this.isParkedPerHour = isParkedPerHour;
         this.driver = driver;
     }
 
@@ -52,6 +54,14 @@ public class Vehicle {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public boolean isParkedPerHour() {
+        return isParkedPerHour;
+    }
+
+    public void setParkedPerHour(boolean parkedPerHour) {
+        isParkedPerHour = parkedPerHour;
     }
 
     public Driver getDriver() {

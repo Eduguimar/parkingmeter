@@ -2,6 +2,7 @@ package com.fiap.postech.parkingmeter.controllers;
 
 import com.fiap.postech.parkingmeter.dtos.DriverDTO;
 import com.fiap.postech.parkingmeter.services.DriverService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,14 +36,14 @@ public class DriverController {
     }
 
     @PostMapping
-    public ResponseEntity<DriverDTO> save(@RequestBody DriverDTO driverDTO) {
+    public ResponseEntity<DriverDTO> save(@Valid @RequestBody DriverDTO driverDTO) {
         var driver = driverService.save(driverDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(driver);
     }
 
     @PostMapping(value = "/{id}")
-    public ResponseEntity<DriverDTO> update(@PathVariable Long id, @RequestBody DriverDTO driverDTO) {
+    public ResponseEntity<DriverDTO> update(@PathVariable Long id, @Valid @RequestBody DriverDTO driverDTO) {
         var driver = driverService.update(id, driverDTO);
 
         return ResponseEntity.ok(driver);

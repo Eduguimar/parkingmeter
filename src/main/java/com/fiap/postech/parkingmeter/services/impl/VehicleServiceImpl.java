@@ -70,6 +70,7 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setModel(dto.getModel());
         vehicle.setLicensePlate(dto.getLicensePlate());
         vehicle.setYear(dto.getYear());
-        vehicle.setDriver(driverRepository.getOne(dto.getDriver().getId()));
+        vehicle.setParkedPerHour(dto.isParkedPerHour());
+        vehicle.setDriver(driverRepository.getOne(dto.getDriverDTO().getId()));
     }
 }

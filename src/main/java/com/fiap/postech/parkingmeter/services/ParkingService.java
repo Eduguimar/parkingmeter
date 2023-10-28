@@ -1,18 +1,21 @@
 package com.fiap.postech.parkingmeter.services;
 
-import com.fiap.postech.parkingmeter.dtos.DriverDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import com.fiap.postech.parkingmeter.dtos.ParkingDTO;
+import com.fiap.postech.parkingmeter.dtos.SummaryDTO;
+import com.fiap.postech.parkingmeter.dtos.VehicleDTO;
+import com.fiap.postech.parkingmeter.models.Parking;
+
+import java.time.LocalDateTime;
 
 public interface ParkingService {
 
-    Page<DriverDTO> findAll(PageRequest pageRequest);
+    ParkingDTO createFixedPeriodEntry(ParkingDTO parkingDTO);
 
-    DriverDTO findById(Long id);
+    ParkingDTO createPerHourEntry(ParkingDTO parkingDTO);
 
-    DriverDTO save(DriverDTO driverDTO);
+    SummaryDTO createExitPerHour(VehicleDTO vehicleDTO);
 
-    DriverDTO update(Long id, DriverDTO driverDTO);
+    double calculatePrice(LocalDateTime entryTime, LocalDateTime exitTime);
 
-    void delete(Long id);
+    SummaryDTO createSummary(Parking parking);
 }

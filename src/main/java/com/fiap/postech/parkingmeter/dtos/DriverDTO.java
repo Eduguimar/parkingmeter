@@ -3,6 +3,7 @@ package com.fiap.postech.parkingmeter.dtos;
 import com.fiap.postech.parkingmeter.models.Driver;
 import com.fiap.postech.parkingmeter.models.Vehicle;
 import com.fiap.postech.parkingmeter.models.enums.PaymentForm;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Set;
 public class DriverDTO {
 
     private Long id;
+    @NotBlank(message = "Name is required")
     private String name;
     private String document;
     private Date birthDate;
