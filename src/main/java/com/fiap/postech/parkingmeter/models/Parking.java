@@ -1,21 +1,28 @@
 package com.fiap.postech.parkingmeter.models;
 
 import com.fiap.postech.parkingmeter.models.enums.ParkingType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_parking")
 public class Parking {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private LocalDateTime entryTime;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private LocalDateTime exitTime;
     private Double value;
     @Enumerated(EnumType.STRING)
     private ParkingType parkingType;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
     public Parking() {

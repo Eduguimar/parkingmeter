@@ -4,12 +4,14 @@ import com.fiap.postech.parkingmeter.dtos.ParkingDTO;
 import com.fiap.postech.parkingmeter.dtos.SummaryDTO;
 import com.fiap.postech.parkingmeter.dtos.VehicleDTO;
 import com.fiap.postech.parkingmeter.models.Parking;
+import com.fiap.postech.parkingmeter.models.Vehicle;
 import com.fiap.postech.parkingmeter.repositories.ParkingRepository;
 import com.fiap.postech.parkingmeter.repositories.VehicleRepository;
 import com.fiap.postech.parkingmeter.services.ParkingService;
 import com.fiap.postech.parkingmeter.services.exceptions.ControllerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -23,6 +25,7 @@ public class ParkingServiceImpl implements ParkingService {
     VehicleRepository vehicleRepository;
 
     @Override
+    @Transactional
     public ParkingDTO createFixedPeriodEntry(ParkingDTO parkingDTO) {
         Parking parking = new Parking();
         mapperDtoToEntity(parkingDTO, parking);
@@ -34,17 +37,22 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
+    @Transactional
     public ParkingDTO createPerHourEntry(ParkingDTO parkingDTO) {
         Parking parking = new Parking();
         mapperDtoToEntity(parkingDTO, parking);
         parking.setEntryTime(LocalDateTime.now());
         parking.getVehicle().setParkedPerHour(true);
+        Vehicle vehicle = vehicleRepository.findById(parking.getVehicle().getId()).orElseThrow(() -> new ControllerNotFoundException("Vehicle not found"));
+        vehicle.setParking(parking);
+        vehicleRepository.save(vehicle);
 
         var savedParking = parkingRepository.save(parking);
         return new ParkingDTO(savedParking);
     }
 
     @Override
+    @Transactional
     public SummaryDTO createExitPerHour(VehicleDTO vehicleDTO) {
         Parking parking = parkingRepository.findByVehicleId(vehicleDTO.getId());
         if (parking == null) {
@@ -52,6 +60,9 @@ public class ParkingServiceImpl implements ParkingService {
         }
         parking.setExitTime(LocalDateTime.now());
         parking.getVehicle().setParkedPerHour(false);
+        Vehicle vehicle = vehicleRepository.findById(parking.getVehicle().getId()).orElseThrow(() -> new ControllerNotFoundException("Vehicle not found"));
+        vehicle.setParking(null);
+        vehicleRepository.save(vehicle);
 
         var savedParking = parkingRepository.save(parking);
         return createSummary(savedParking);

@@ -1,27 +1,39 @@
 package com.fiap.postech.parkingmeter.models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_vehicle")
 public class Vehicle {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String model;
     private String licensePlate;
     private Integer year;
     private boolean isParkedPerHour;
 
+    @ManyToOne
+    @JoinColumn(name = "driver_id", nullable = false)
     private Driver driver;
+
+    @OneToOne(mappedBy = "vehicle")
+    private Parking parking;
 
     public Vehicle(){
     }
 
-    public Vehicle(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, Driver driver) {
+    public Vehicle(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, Driver driver, Parking parking) {
         this.id = id;
         this.model = model;
         this.licensePlate = licensePlate;
         this.year = year;
         this.isParkedPerHour = isParkedPerHour;
         this.driver = driver;
+        this.parking = parking;
     }
 
     public Long getId() {
@@ -70,6 +82,14 @@ public class Vehicle {
 
     public void setDriver(Driver driver) {
         this.driver = driver;
+    }
+
+    public Parking getParking() {
+        return parking;
+    }
+
+    public void setParking(Parking parking) {
+        this.parking = parking;
     }
 
     @Override

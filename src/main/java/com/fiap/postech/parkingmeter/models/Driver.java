@@ -1,25 +1,31 @@
 package com.fiap.postech.parkingmeter.models;
 
 import com.fiap.postech.parkingmeter.models.enums.PaymentForm;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
+@Table(name = "tb_driver")
 public class Driver {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String document;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Date birthDate;
     private String mail;
     private String phone;
     @Enumerated(EnumType.STRING)
     private PaymentForm paymentForm;
 
-    private Set<Vehicle> vehicles;
+    @OneToMany(mappedBy = "driver")
+    private Set<Vehicle> vehicles = new HashSet<>();
 
     public Driver() {
     }

@@ -74,6 +74,7 @@ public class DriverServiceImpl implements DriverService {
         driver.setBirthDate(dto.getBirthDate());
         driver.setMail(dto.getMail());
         driver.setPhone(dto.getPhone());
+        driver.setPaymentForm(dto.getPaymentForm());
 
         for (VehicleDTO vehicleDTO : dto.getVehicles()) {
             Vehicle vehicle = vehicleRepository.getOne(vehicleDTO.getId());

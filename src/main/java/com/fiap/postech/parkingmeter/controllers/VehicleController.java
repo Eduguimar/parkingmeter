@@ -42,7 +42,7 @@ public class VehicleController {
         return ResponseEntity.status(HttpStatus.CREATED).body(vehicle);
     }
 
-    @PostMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<VehicleDTO> update(@PathVariable Long id, @Valid @RequestBody VehicleDTO vehicleDTO) {
         var vehicle = vehicleService.update(id, vehicleDTO);
 

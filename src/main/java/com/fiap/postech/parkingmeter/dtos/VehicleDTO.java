@@ -14,16 +14,19 @@ public class VehicleDTO {
 
     private DriverDTO driverDTO;
 
+    private ParkingDTO parkingDTO;
+
     public VehicleDTO() {
     }
 
-    public VehicleDTO(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, DriverDTO driverDTO) {
+    public VehicleDTO(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, DriverDTO driverDTO, ParkingDTO parkingDTO) {
         this.id = id;
         this.model = model;
         this.licensePlate = licensePlate;
         this.year = year;
         this.isParkedPerHour = isParkedPerHour;
         this.driverDTO = driverDTO;
+        this.parkingDTO = parkingDTO;
     }
 
     public VehicleDTO(Vehicle vehicle) {
@@ -33,6 +36,7 @@ public class VehicleDTO {
         this.year = vehicle.getYear();
         this.isParkedPerHour = vehicle.isParkedPerHour();
         this.driverDTO = new DriverDTO(vehicle.getDriver());
+        this.parkingDTO = new ParkingDTO(vehicle.getParking());
     }
 
     public Long getId() {
@@ -81,5 +85,13 @@ public class VehicleDTO {
 
     public void setDriverDTO(DriverDTO driverDTO) {
         this.driverDTO = driverDTO;
+    }
+
+    public ParkingDTO getParkingDTO() {
+        return parkingDTO;
+    }
+
+    public void setParkingDTO(ParkingDTO parkingDTO) {
+        this.parkingDTO = parkingDTO;
     }
 }

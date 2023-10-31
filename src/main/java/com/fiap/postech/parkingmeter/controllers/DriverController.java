@@ -42,7 +42,7 @@ public class DriverController {
         return ResponseEntity.status(HttpStatus.CREATED).body(driver);
     }
 
-    @PostMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<DriverDTO> update(@PathVariable Long id, @Valid @RequestBody DriverDTO driverDTO) {
         var driver = driverService.update(id, driverDTO);
 
