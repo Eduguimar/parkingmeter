@@ -1,22 +1,32 @@
 package com.fiap.postech.parkingmeter.dtos;
 
-public class SummaryDTO {
+public class SummaryExitDTO {
 
+    private Long id;
     private String entryTime;
     private String exitTime;
     private long totalParkingTimeInHours;
     private double totalValue;
     private VehicleDTO vehicleDTO;
 
-    public SummaryDTO() {
+    public SummaryExitDTO() {
     }
 
-    public SummaryDTO(String entryTime, String exitTime, long totalParkingTimeInHours, double totalValue, VehicleDTO vehicleDTO) {
+    public SummaryExitDTO(Long id, String entryTime, String exitTime, long totalParkingTimeInHours, double totalValue, VehicleDTO vehicleDTO) {
+        this.id = id;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
         this.totalParkingTimeInHours = totalParkingTimeInHours;
         this.totalValue = totalValue;
         this.vehicleDTO = vehicleDTO;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEntryTime() {

@@ -17,7 +17,7 @@ public class Vehicle {
     private boolean isParkedPerHour;
 
     @ManyToOne
-    @JoinColumn(name = "driver_id", nullable = false)
+    @JoinColumn(name = "driver_id")
     private Driver driver;
 
     @OneToOne(mappedBy = "vehicle")

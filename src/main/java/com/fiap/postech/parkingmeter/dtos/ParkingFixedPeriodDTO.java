@@ -1,22 +1,22 @@
 package com.fiap.postech.parkingmeter.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public class ParkingFixedPeriodDTO {
 
-    @NotBlank(message = "Exit time required")
+    @NotNull(message = "Exit time required")
     private LocalDateTime exitTime;
-    @NotBlank(message = "Vehicle required")
-    private VehicleDTO vehicleDTO;
+    @NotNull(message = "Vehicle required")
+    private Long vehicleId;
 
     public ParkingFixedPeriodDTO() {
     }
 
-    public ParkingFixedPeriodDTO(LocalDateTime exitTime, VehicleDTO vehicleDTO) {
+    public ParkingFixedPeriodDTO(LocalDateTime exitTime, Long vehicleId) {
         this.exitTime = exitTime;
-        this.vehicleDTO = vehicleDTO;
+        this.vehicleId = vehicleId;
     }
 
     public LocalDateTime getExitTime() {
@@ -27,11 +27,11 @@ public class ParkingFixedPeriodDTO {
         this.exitTime = exitTime;
     }
 
-    public VehicleDTO getVehicleDTO() {
-        return vehicleDTO;
+    public Long getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehicleDTO(VehicleDTO vehicleDTO) {
-        this.vehicleDTO = vehicleDTO;
+    public void setVehicleId(Long vehicleId) {
+        this.vehicleId = vehicleId;
     }
 }

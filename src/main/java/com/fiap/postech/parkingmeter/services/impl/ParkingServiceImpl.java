@@ -1,10 +1,10 @@
 package com.fiap.postech.parkingmeter.services.impl;
 
 import com.fiap.postech.parkingmeter.dtos.ParkingDTO;
-import com.fiap.postech.parkingmeter.dtos.SummaryDTO;
+import com.fiap.postech.parkingmeter.dtos.SummaryEntryDTO;
+import com.fiap.postech.parkingmeter.dtos.SummaryExitDTO;
 import com.fiap.postech.parkingmeter.dtos.VehicleDTO;
 import com.fiap.postech.parkingmeter.models.Parking;
-import com.fiap.postech.parkingmeter.models.Vehicle;
 import com.fiap.postech.parkingmeter.repositories.ParkingRepository;
 import com.fiap.postech.parkingmeter.repositories.VehicleRepository;
 import com.fiap.postech.parkingmeter.services.ParkingService;
@@ -38,34 +38,30 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     @Transactional
-    public ParkingDTO createPerHourEntry(ParkingDTO parkingDTO) {
+    public SummaryEntryDTO createPerHourEntry(ParkingDTO parkingDTO) {
         Parking parking = new Parking();
         mapperDtoToEntity(parkingDTO, parking);
+        if (parking.getVehicle().isParkedPerHour()) {
+            throw new RuntimeException("Vehicle already parked");
+        }
         parking.setEntryTime(LocalDateTime.now());
         parking.getVehicle().setParkedPerHour(true);
-        Vehicle vehicle = vehicleRepository.findById(parking.getVehicle().getId()).orElseThrow(() -> new ControllerNotFoundException("Vehicle not found"));
-        vehicle.setParking(parking);
-        vehicleRepository.save(vehicle);
-
         var savedParking = parkingRepository.save(parking);
-        return new ParkingDTO(savedParking);
+
+        return createSummaryEntry(savedParking);
     }
 
     @Override
     @Transactional
-    public SummaryDTO createExitPerHour(VehicleDTO vehicleDTO) {
-        Parking parking = parkingRepository.findByVehicleId(vehicleDTO.getId());
-        if (parking == null) {
-            throw new ControllerNotFoundException("Parking not found");
-        }
+    public SummaryExitDTO createExitPerHour(Long parkingId) {
+        Parking parking = parkingRepository.findById(parkingId).orElseThrow(() -> new ControllerNotFoundException("Parking not found"));
         parking.setExitTime(LocalDateTime.now());
         parking.getVehicle().setParkedPerHour(false);
-        Vehicle vehicle = vehicleRepository.findById(parking.getVehicle().getId()).orElseThrow(() -> new ControllerNotFoundException("Vehicle not found"));
-        vehicle.setParking(null);
-        vehicleRepository.save(vehicle);
+        SummaryExitDTO summary = createSummaryExit(parking);
+        parking.setValue(summary.getTotalValue());
+        parkingRepository.save(parking);
 
-        var savedParking = parkingRepository.save(parking);
-        return createSummary(savedParking);
+        return summary;
     }
 
 
@@ -93,19 +89,31 @@ public class ParkingServiceImpl implements ParkingService {
     }
 
     @Override
-    public SummaryDTO createSummary(Parking parking) {
+    public SummaryEntryDTO createSummaryEntry(Parking parking) {
+        SummaryEntryDTO summaryEntry = new SummaryEntryDTO();
+        summaryEntry.setId(parking.getId());
+        summaryEntry.setEntryTime(parking.getEntryTime().toString());
+        summaryEntry.setParkingType(parking.getParkingType());
+        summaryEntry.setVehicleDTO(new VehicleDTO(parking.getVehicle()));
+
+        return summaryEntry;
+    }
+
+    @Override
+    public SummaryExitDTO createSummaryExit(Parking parking) {
         var timeDuration =  Duration.between(parking.getEntryTime(), parking.getExitTime());
         long totalParkedHours = timeDuration.toHours();
         double totalValue = calculatePrice(parking.getEntryTime(), parking.getExitTime());
 
-        SummaryDTO summaryDTO = new SummaryDTO();
-        summaryDTO.setEntryTime(parking.getEntryTime().toString());
-        summaryDTO.setExitTime(parking.getExitTime().toString());
-        summaryDTO.setVehicleDTO(new VehicleDTO(parking.getVehicle()));
-        summaryDTO.setTotalParkingTimeInHours(totalParkedHours);
-        summaryDTO.setTotalValue(totalValue);
+        SummaryExitDTO summaryExitDTO = new SummaryExitDTO();
+        summaryExitDTO.setId(parking.getId());
+        summaryExitDTO.setEntryTime(parking.getEntryTime().toString());
+        summaryExitDTO.setExitTime(parking.getExitTime().toString());
+        summaryExitDTO.setVehicleDTO(new VehicleDTO(parking.getVehicle()));
+        summaryExitDTO.setTotalParkingTimeInHours(totalParkedHours);
+        summaryExitDTO.setTotalValue(totalValue);
 
-        return summaryDTO;
+        return summaryExitDTO;
     }
 
     private void mapperDtoToEntity(ParkingDTO dto, Parking parking) {
@@ -113,7 +121,7 @@ public class ParkingServiceImpl implements ParkingService {
         parking.setExitTime(dto.getExitTime());
         parking.setValue(dto.getValue());
         parking.setParkingType(dto.getParkingType());
-        parking.setVehicle(vehicleRepository.getOne(dto.getVehicleDTO().getId()));
+        parking.setVehicle(vehicleRepository.getOne(dto.getVehicleId()));
     }
 
 }

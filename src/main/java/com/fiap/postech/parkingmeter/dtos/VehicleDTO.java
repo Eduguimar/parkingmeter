@@ -2,6 +2,7 @@ package com.fiap.postech.parkingmeter.dtos;
 
 import com.fiap.postech.parkingmeter.models.Vehicle;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class VehicleDTO {
 
@@ -12,21 +13,19 @@ public class VehicleDTO {
     private Integer year;
     private boolean isParkedPerHour;
 
-    private DriverDTO driverDTO;
-
-    private ParkingDTO parkingDTO;
+    @NotNull
+    private Long driverId;
 
     public VehicleDTO() {
     }
 
-    public VehicleDTO(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, DriverDTO driverDTO, ParkingDTO parkingDTO) {
+    public VehicleDTO(Long id, String model, String licensePlate, Integer year, boolean isParkedPerHour, Long driverId) {
         this.id = id;
         this.model = model;
         this.licensePlate = licensePlate;
         this.year = year;
         this.isParkedPerHour = isParkedPerHour;
-        this.driverDTO = driverDTO;
-        this.parkingDTO = parkingDTO;
+        this.driverId = driverId;
     }
 
     public VehicleDTO(Vehicle vehicle) {
@@ -35,8 +34,7 @@ public class VehicleDTO {
         this.licensePlate = vehicle.getLicensePlate();
         this.year = vehicle.getYear();
         this.isParkedPerHour = vehicle.isParkedPerHour();
-        this.driverDTO = new DriverDTO(vehicle.getDriver());
-        this.parkingDTO = new ParkingDTO(vehicle.getParking());
+        this.driverId = vehicle.getDriver().getId();
     }
 
     public Long getId() {
@@ -79,19 +77,11 @@ public class VehicleDTO {
         isParkedPerHour = parkedPerHour;
     }
 
-    public DriverDTO getDriverDTO() {
-        return driverDTO;
+    public Long getDriverId() {
+        return driverId;
     }
 
-    public void setDriverDTO(DriverDTO driverDTO) {
-        this.driverDTO = driverDTO;
-    }
-
-    public ParkingDTO getParkingDTO() {
-        return parkingDTO;
-    }
-
-    public void setParkingDTO(ParkingDTO parkingDTO) {
-        this.parkingDTO = parkingDTO;
+    public void setDriverId(Long driverId) {
+        this.driverId = driverId;
     }
 }

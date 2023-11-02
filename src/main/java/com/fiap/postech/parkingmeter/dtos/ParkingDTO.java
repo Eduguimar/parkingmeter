@@ -2,6 +2,7 @@ package com.fiap.postech.parkingmeter.dtos;
 
 import com.fiap.postech.parkingmeter.models.Parking;
 import com.fiap.postech.parkingmeter.models.enums.ParkingType;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -13,18 +14,19 @@ public class ParkingDTO {
     private Double value;
     private ParkingType parkingType;
 
-    private VehicleDTO vehicleDTO;
+    @NotNull
+    private Long vehicleId;
 
     public ParkingDTO() {
     }
 
-    public ParkingDTO(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double value, ParkingType parkingType, VehicleDTO vehicleDTO) {
+    public ParkingDTO(Long id, LocalDateTime entryTime, LocalDateTime exitTime, Double value, ParkingType parkingType, Long vehicleId) {
         this.id = id;
         this.entryTime = entryTime;
         this.exitTime = exitTime;
         this.value = value;
         this.parkingType = parkingType;
-        this.vehicleDTO = vehicleDTO;
+        this.vehicleId = vehicleId;
     }
 
     public ParkingDTO(Parking parking) {
@@ -33,7 +35,7 @@ public class ParkingDTO {
         this.exitTime = parking.getExitTime();
         this.value = parking.getValue();
         this.parkingType = parking.getParkingType();
-        this.vehicleDTO = new VehicleDTO(parking.getVehicle());
+        this.vehicleId = parking.getVehicle().getId();
     }
 
     public Long getId() {
@@ -76,11 +78,11 @@ public class ParkingDTO {
         this.parkingType = parkingType;
     }
 
-    public VehicleDTO getVehicleDTO() {
-        return vehicleDTO;
+    public Long getVehicleId() {
+        return vehicleId;
     }
 
-    public void setVehicleDTO(VehicleDTO vehicleDTO) {
-        this.vehicleDTO = vehicleDTO;
+    public void setVehicleId(Long vehicleId) {
+        this.vehicleId = vehicleId;
     }
 }
