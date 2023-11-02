@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "79e982d7-ad85-403b-bbba-1fd4905e1293",
+		"_postman_id": "d8af550b-bfeb-4555-ad5e-80277f41ed90",
 		"name": "ParkingMeter",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "15692045"
@@ -307,6 +307,33 @@
 							"path": [
 								"parking",
 								"createExitPerHour"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send notification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "1",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhost}}/parking/sendNotification",
+							"host": [
+								"{{localhost}}"
+							],
+							"path": [
+								"parking",
+								"sendNotification"
 							]
 						}
 					},
