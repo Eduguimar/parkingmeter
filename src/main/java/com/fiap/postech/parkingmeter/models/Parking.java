@@ -17,6 +17,8 @@ public class Parking {
     private LocalDateTime entryTime;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private LocalDateTime exitTime;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private LocalDateTime nextNotificationDate;
     private Double value;
     @Enumerated(EnumType.STRING)
     private ParkingType parkingType;

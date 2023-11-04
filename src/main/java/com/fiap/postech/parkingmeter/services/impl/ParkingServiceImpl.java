@@ -5,6 +5,7 @@ import com.fiap.postech.parkingmeter.dtos.SummaryEntryDTO;
 import com.fiap.postech.parkingmeter.dtos.SummaryExitDTO;
 import com.fiap.postech.parkingmeter.dtos.VehicleDTO;
 import com.fiap.postech.parkingmeter.models.Parking;
+import com.fiap.postech.parkingmeter.models.enums.ParkingType;
 import com.fiap.postech.parkingmeter.repositories.ParkingRepository;
 import com.fiap.postech.parkingmeter.repositories.VehicleRepository;
 import com.fiap.postech.parkingmeter.services.ParkingService;
@@ -31,6 +32,7 @@ public class ParkingServiceImpl implements ParkingService {
         mapperDtoToEntity(parkingDTO, parking);
         parking.setEntryTime(LocalDateTime.now());
         parking.setValue(calculatePrice(parking.getEntryTime(), parking.getExitTime()));
+        parking.setNextNotificationDate(parking.getExitTime().minusMinutes(10));
 
         var savedParking = parkingRepository.save(parking);
         return new ParkingDTO(savedParking);
@@ -46,6 +48,8 @@ public class ParkingServiceImpl implements ParkingService {
         }
         parking.setEntryTime(LocalDateTime.now());
         parking.getVehicle().setParkedPerHour(true);
+        parking.setNextNotificationDate(parking.getEntryTime().plusMinutes(50));
+
         var savedParking = parkingRepository.save(parking);
 
         return createSummaryEntry(savedParking);
@@ -59,11 +63,21 @@ public class ParkingServiceImpl implements ParkingService {
         parking.getVehicle().setParkedPerHour(false);
         SummaryExitDTO summary = createSummaryExit(parking);
         parking.setValue(summary.getTotalValue());
+        parking.setNextNotificationDate(null);
+
         parkingRepository.save(parking);
 
         return summary;
     }
 
+    @Override
+    @Transactional
+    public void updateNextNotificationDate(Parking parking) {
+        LocalDateTime nextNotificationDate = parking.getParkingType().equals(ParkingType.PER_HOUR) ? LocalDateTime.now().plusHours(1) : null;
+
+        parking.setNextNotificationDate(nextNotificationDate);
+        parkingRepository.save(parking);
+    }
 
     @Override
     public double calculatePrice(LocalDateTime entryTime, LocalDateTime exitTime) {
@@ -123,5 +137,4 @@ public class ParkingServiceImpl implements ParkingService {
         parking.setParkingType(dto.getParkingType());
         parking.setVehicle(vehicleRepository.getOne(dto.getVehicleId()));
     }
-
 }

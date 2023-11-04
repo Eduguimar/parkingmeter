@@ -20,4 +20,6 @@ public interface ParkingService {
     SummaryEntryDTO createSummaryEntry(Parking parking);
 
     SummaryExitDTO createSummaryExit(Parking parking);
+
+    void updateNextNotificationDate(Parking parking);
 }
