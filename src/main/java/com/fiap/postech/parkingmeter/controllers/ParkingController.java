@@ -6,10 +6,8 @@ import com.fiap.postech.parkingmeter.dtos.SummaryEntryDTO;
 import com.fiap.postech.parkingmeter.dtos.SummaryExitDTO;
 import com.fiap.postech.parkingmeter.models.enums.ParkingType;
 import com.fiap.postech.parkingmeter.services.ParkingService;
-import com.fiap.postech.parkingmeter.services.SNSService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +20,6 @@ public class ParkingController {
 
     @Autowired
     ParkingService parkingService;
-
-    @Autowired
-    SNSService snsService;
 
     @PostMapping(value = "/createEntryFixedPeriod")
     public ResponseEntity<ParkingDTO> createEntryFixedPeriod(@Valid @RequestBody ParkingFixedPeriodDTO parkingFixedPeriodDTO) {
@@ -52,12 +47,5 @@ public class ParkingController {
         SummaryExitDTO summary = parkingService.createExitPerHour(parkingId);
 
         return ResponseEntity.ok(summary);
-    }
-
-    @PostMapping(value = "/sendNotification")
-    public ResponseEntity<String> sendNotification(@RequestBody Long parkingId) {
-        snsService.sendNotificationToExpiringParking(parkingId);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Message sent successfully!");
     }
 }
