@@ -311,33 +311,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Send notification",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "1",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{localhost}}/parking/sendNotification",
-							"host": [
-								"{{localhost}}"
-							],
-							"path": [
-								"parking",
-								"sendNotification"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		}

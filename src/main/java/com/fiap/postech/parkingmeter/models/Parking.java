@@ -51,16 +51,24 @@ public class Parking {
         return entryTime;
     }
 
+    public void setNextNotificationDate(LocalDateTime nextNotificationDate) {
+        this.nextNotificationDate = nextNotificationDate;
+    }
+
+    public LocalDateTime getNextNotificationDate() {
+        return nextNotificationDate;
+    }
+
+    public void setExitTime(LocalDateTime exitTime) {
+        this.exitTime = exitTime;
+    }
+
     public void setEntryTime(LocalDateTime entryTime) {
         this.entryTime = entryTime;
     }
 
     public LocalDateTime getExitTime() {
         return exitTime;
-    }
-
-    public void setExitTime(LocalDateTime exitTime) {
-        this.exitTime = exitTime;
     }
 
     public Double getValue() {
